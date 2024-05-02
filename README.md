@@ -11,6 +11,9 @@ This project is a web application developed using Python with the Django framewo
 - **Dashboard:** Visualize error log data with interactive charts and graphs.
 - **User Management:** Manage users and their access levels.
 
+## Diagram
+![Database diagram][management.png]
+
 ## Installation
 
 1. **Clone the repository:**
