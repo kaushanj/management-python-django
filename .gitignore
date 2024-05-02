@@ -161,6 +161,7 @@ cython_debug/
 
 #DB
 *.sqlite3
+authentication_key
 
 
 
