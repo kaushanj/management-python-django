@@ -12,7 +12,7 @@ This project is a web application developed using Python with the Django framewo
 - **User Management:** Manage users and their access levels.
 
 ## Diagram
-![Database diagram][management.png]
+![Database diagram](management.png)
 
 ## Installation
 
