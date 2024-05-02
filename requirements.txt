@@ -1,0 +1,5 @@
+django = "*"
+boto3 = "*"
+pymysql = "*"
+django-debug-toolbar = "*"
+cryptography = "*"
