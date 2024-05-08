@@ -166,6 +166,9 @@ cython_debug/
 authentication_key
 *.pub
 
+# Git
+*.DS_Store
+
 
 
 

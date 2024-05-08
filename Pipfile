@@ -10,7 +10,11 @@ pymysql = "*"
 django-debug-toolbar = "*"
 cryptography = "*"
 
+
 [dev-packages]
+pytest = "*"
+pytest-django = "*"
+model-bakery = "*"
 
 [requires]
 python_version = "3.11"

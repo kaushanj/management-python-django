@@ -94,10 +94,10 @@ class Alarm(models.Model):
         (NAMESPACE_EC2, 'EC2')
     ]
 
-    TREAT_DATA_AS_BREACHING = 'BREACHING'
-    TREAT_DATA_AS_NOTBREACHING = 'NOTBREACHING'
-    TREAT_DATA_AS_IGNORE = 'IGNORE'
-    TREAT_DATA_AS_MISSING = 'MISSING'
+    TREAT_DATA_AS_BREACHING = 'breaching'
+    TREAT_DATA_AS_NOTBREACHING = 'notBreaching'
+    TREAT_DATA_AS_IGNORE = 'ignore'
+    TREAT_DATA_AS_MISSING = 'missing'
 
     TREAT_DATA_CHOICES = [
         (TREAT_DATA_AS_BREACHING, 'breaching'),
@@ -109,12 +109,12 @@ class Alarm(models.Model):
     alarm_id = models.SmallAutoField(
         primary_key=True, auto_created=True, unique=True)
     name = models.CharField(max_length=255, null=False)
-    description = models.CharField(max_length=255, null=True, blank=True)
+    description = models.CharField(max_length=255, null=False, blank=False)
     statistic = models.CharField(max_length=55, choices=STATISTIC_CHOICES)
     threshold = models.PositiveSmallIntegerField(null=False)
     comparison_operator = models.CharField(
         max_length=255, choices=THRESHOLD_CHOICES)
-    period = models.PositiveSmallIntegerField(help_text="In seconds ex: 5, 10")
+    period = models.PositiveSmallIntegerField(help_text="In seconds, greater than 10 seconds. ex: 10")
     is_active = models.BooleanField(default=True)
     metric_name = models.CharField(max_length=55, null=False)
     namespace = models.CharField(max_length=255, choices=NAMESPACE_CHOICES)
@@ -126,10 +126,10 @@ class Alarm(models.Model):
         return f'{self.name}'
 
 
-class ARN(models.Model):
+class AlertSource(models.Model):
 
     """
-    Model for setting AWS resource ARNs.
+    Model for setting AWS resource AlertSource.
 
     Attributes:
     - arn_id: AutoField for the ARN ID.
@@ -141,6 +141,7 @@ class ARN(models.Model):
     """
 
     arn_id = models.AutoField(primary_key=True, auto_created=True, unique=True)
+    name = models.CharField(max_length=255, null=False)
     value = models.CharField(max_length=255, validators=[ARNValidator()])
 
     def __str__(self):
@@ -189,7 +190,7 @@ class AlarmAction(models.Model):
     alarm = models.ForeignKey(Alarm, on_delete=models.CASCADE)
     action = models.CharField(
         max_length=55, choices=ACTION_CHOICES, default=ACTION_OK)
-    arn = models.ForeignKey(ARN, on_delete=models.PROTECT)
+    arn = models.ForeignKey(AlertSource, on_delete=models.PROTECT)
 
 
 class Dimension(models.Model):

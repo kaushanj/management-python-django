@@ -1,6 +1,7 @@
 """Import Django models and settings."""
 from django.db import models
 from django.conf import settings
+from cloudwatch.models import Dimension
 
 
 class Developer(models.Model):
@@ -24,7 +25,7 @@ class Developer(models.Model):
         return f'{self.user.username}'
 
 
-class Bugs(models.Model):
+class Bug(models.Model):
     """
     Model representing a bug report.
 
@@ -40,6 +41,7 @@ class Bugs(models.Model):
     """
 
     bug_id = models.CharField(max_length=255, primary_key=True, unique=True)
+    dimension = models.ForeignKey(Dimension, on_delete=models.CASCADE)
     resolved = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -50,6 +52,9 @@ class Bugs(models.Model):
             str: The bug_id.
         """
         return f'{self.bug_id}'
+    
+    def __json__(self):
+        return {'name': self.dimension}
 
 
 class BugOwner(models.Model):
@@ -62,6 +67,6 @@ class BugOwner(models.Model):
     """
     user = models.ForeignKey(Developer,
                              on_delete=models.RESTRICT)
-    bug = models.ForeignKey(Bugs, on_delete=models.CASCADE, related_name='developers')
+    bug = models.ForeignKey(Bug, on_delete=models.CASCADE, related_name='developers')
     created_at = models.DateTimeField(auto_now_add=True)
 
